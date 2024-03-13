@@ -28,7 +28,7 @@ jobs:
 
       - name: Build and Run with Docker Compose
         run: |
-          docker-compose -f docker-compose.yml up &
+          docker-compose up &
 
       - name: Wait for evaluationworker to exit
         run: |
