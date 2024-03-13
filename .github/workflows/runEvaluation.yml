@@ -9,16 +9,21 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      
-    - name: Login to Amazon ECR
-      uses: aws-actions/amazon-ecr-login@v1
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::426691418260:role/PullDeploymentTesting
+          role-session-name: GitHubActions
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
 
-    - name: Build and Run with Docker Compose
-      run: |
-        docker-compose -f docker-compose.yml up -d
+      - name: Build and Run with Docker Compose
+        run: |
+          docker-compose -f docker-compose.yml up -d
 
-    - name: Cleanup
-      if: always()
-      run: docker-compose down
+      - name: Cleanup
+        if: always()
+        run: docker-compose down
