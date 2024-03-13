@@ -8,7 +8,7 @@ on:
 permissions:
   id-token: write
   contents: read
-  
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -27,6 +27,15 @@ jobs:
       - name: Build and Run with Docker Compose
         run: |
           docker-compose -f docker-compose.yml up -d
+
+      - name: Build and Run with Docker Compose
+        run: |
+          docker-compose -f docker-compose.yml up -d
+
+      - name: Show service logs
+        run: |
+          echo "Fetching logs for evaluationworker..."
+          docker-compose logs --tail="100" evaluationworker
 
       - name: Cleanup
         if: always()
