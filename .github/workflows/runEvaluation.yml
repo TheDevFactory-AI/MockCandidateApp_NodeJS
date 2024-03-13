@@ -28,17 +28,7 @@ jobs:
 
       - name: Build and Run with Docker Compose
         run: |
-          docker-compose up &
-
-      - name: Wait for evaluationworker to exit
-        run: |
-          while true; do
-            if ! docker ps | grep 'evaluationworker'; then
-              echo "The evaluationworker service has exited."
-              break
-            fi
-            sleep 10
-          done
+          docker-compose up --abort-on-container-exit
           
       - name: Cleanup
         if: always()
